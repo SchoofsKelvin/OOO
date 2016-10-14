@@ -75,7 +75,7 @@ public class UI {
 		}
 	}
 
-	private static void addProduct(Shop shop) throws DomainException {
+	public static void addProduct(Shop shop) throws DomainException {
 		Product product = null;
 		String id = JOptionPane.showInputDialog("Enter the id:");
 		String title = JOptionPane.showInputDialog("Enter the title:");
@@ -103,7 +103,7 @@ public class UI {
 		JOptionPane.showMessageDialog(null, "Found: " + prod.toString());
 	}
 
-	private static void showPrice(Shop shop) throws DomainException {
+	public static void showPrice(Shop shop) throws DomainException {
 		String id = JOptionPane.showInputDialog("Enter the id:");
 		if (id == null || id.trim().isEmpty()) throw new DomainException("Invalid ID");
 		Product prod = shop.getProduct(id);
@@ -114,7 +114,7 @@ public class UI {
 		JOptionPane.showMessageDialog(null, "Price: " + prod.getPrice(days));
 	}
 
-	private static void showAllProduct(Shop shop) throws DomainException {
+	public static void showAllProduct(Shop shop) throws DomainException {
 		List<Product> lijst = shop.getProducts();
 		String output = "";
 		for (Product p : lijst) {
@@ -185,8 +185,7 @@ public class UI {
 						prod.setState(new RentedState());
 						break;
 					default:
-						throw new IllegalArgumentException(
-							"Unknown state: " + data[3]);
+						throw new IllegalArgumentException("Unknown state: " + data[3]);
 				}
 				shop.addProduct(prod);
 			}
@@ -200,7 +199,9 @@ public class UI {
 				String[] data = split(scanner.nextLine());
 				Customer c = new Customer(data[2], data[0], data[1]);
 				shop.addCustomer(c);
-				if (data[3].equals("true")) shop.addObserver(c);
+				if (data[3].equals("true")) {
+					shop.addObserver(c);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			error("File Not Found");
@@ -209,6 +210,18 @@ public class UI {
 
 	private static void error(String err) {
 		JOptionPane.showMessageDialog(null, err, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public static void addCustomer(Shop shop) {
+		// TODO Auto-generated method stub
+	}
+
+	public static void subscribe(Shop shop) {
+		// TODO Auto-generated method stub
+	}
+
+	public static void unsubscribe(Shop shop) {
+		// TODO Auto-generated method stub
 	}
 
 }
