@@ -1,0 +1,3 @@
+CD;cd;le cd;Available
+Game;game;le game;Available
+Movie;movie;le movie;Available
