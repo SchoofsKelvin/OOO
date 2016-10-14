@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import db.Shop;
+
 public class View extends JFrame {
 
 	private static final long serialVersionUID = 1L;

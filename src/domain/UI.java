@@ -1,21 +1,11 @@
 package domain;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
-import domain.state.AvailableState;
-import domain.state.DamagedState;
-import domain.state.RemovedState;
-import domain.state.RentedState;
+import db.Shop;
+import db.ShopFromFile;
 import exception.DomainException;
 
 public class UI {
@@ -26,14 +16,14 @@ public class UI {
 			CD cd = new CD("cd", "Le CD");
 			Game game = new Game("game", "Le Game");
 			Movie movie = new Movie("movie", "Le Movie");
-			Shop shop = new Shop();
+			Shop shop = new ShopFromFile();
 			shop.addCustomer(cus);
 			shop.addProduct(cd);
 			shop.addProduct(game);
 			shop.addProduct(movie);
-			saveData(shop);
-			shop = new Shop();
-			loadData(shop);
+			shop.saveData();
+			shop = new ShopFromFile();
+			shop.loadData();
 			for (Customer customer : shop.getCustomers()) {
 				System.out.println(customer);
 			}
@@ -42,7 +32,7 @@ public class UI {
 			}
 			return;
 		}
-		Shop shop = new Shop();
+		Shop shop = new ShopFromFile();
 		loadData(shop);
 		String menu = "1. Add product\n2. Show product\n3. Show rental price\n"
 			+ "4. Show all product\n5. Save data \n\n0. Quit";
@@ -72,6 +62,22 @@ public class UI {
 			} catch (Exception e) {
 				error("Unknown exception: " + e.getMessage());
 			}
+		}
+	}
+
+	private static void loadData(Shop shop) {
+		try {
+			shop.loadData();
+		} catch (Exception e) {
+			error("Couldn't load the data: " + e.getMessage());
+		}
+	}
+
+	private static void saveData(Shop shop) {
+		try {
+			shop.saveData();
+		} catch (Exception e) {
+			error("Couldn't save the data: " + e.getMessage());
 		}
 	}
 
@@ -121,91 +127,6 @@ public class UI {
 			output += p.toString() + "\n";
 		}
 		JOptionPane.showMessageDialog(null, "All product: \n" + output);
-	}
-
-	private static void saveData(Shop shop)
-		throws FileNotFoundException, UnsupportedEncodingException {
-		PrintWriter writer = new PrintWriter("products.txt");
-		for (Product p : shop.getProducts()) {
-			if ( !(p.getState() instanceof RemovedState)) {
-				writer.println(p.getType() + ";" + p.getId() + ";" + p.getTitle() + ";"
-					+ p.getState().getName());
-			}
-		}
-		writer.close();
-		writer = new PrintWriter("customers.txt");
-		for (Customer c : shop.getCustomers()) {
-			writer.println(c.getFirstName() + ";" + c.getLastName() + ";" + c.getEmail()
-				+ ";" + (shop.isObserver(c) ? "true" : "false"));
-		}
-		writer.close();
-	}
-
-	private static String[] split(String str) {
-		Matcher mat = Pattern.compile("[^;]+").matcher(str);
-		ArrayList<String> res = new ArrayList<>();
-		while (mat.find()) {
-			res.add(mat.group());
-		}
-		return res.toArray(new String[res.size()]);
-	}
-
-	private static void loadData(Shop shop) throws DomainException {
-		File file = new File("products.txt");
-		if ( !file.exists()) return;
-		try (Scanner scanner = new Scanner(file)) {
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				String[] data = split(line);
-				if (data.length < 4)
-					throw new IllegalArgumentException("Unknown saved product: " + line);
-				Product prod;
-				switch (data[0].toLowerCase()) {
-					case "cd":
-						prod = new CD(data[1], data[2]);
-						break;
-					case "game":
-						prod = new Game(data[1], data[2]);
-						break;
-					case "movie":
-						prod = new Movie(data[1], data[2]);
-						break;
-					default:
-						throw new IllegalArgumentException(
-							"Unknown saved product: " + line);
-				}
-				switch (data[3].toLowerCase()) {
-					case "available":
-						prod.setState(new AvailableState());
-						break;
-					case "damaged":
-						prod.setState(new DamagedState());
-						break;
-					case "rented":
-						prod.setState(new RentedState());
-						break;
-					default:
-						throw new IllegalArgumentException("Unknown state: " + data[3]);
-				}
-				shop.addProduct(prod);
-			}
-		} catch (FileNotFoundException e) {
-			error("File Not Found");
-		}
-		file = new File("customers.txt");
-		if ( !file.exists()) return;
-		try (Scanner scanner = new Scanner(file)) {
-			while (scanner.hasNextLine()) {
-				String[] data = split(scanner.nextLine());
-				Customer c = new Customer(data[2], data[0], data[1]);
-				shop.addCustomer(c);
-				if (data[3].equals("true")) {
-					shop.addObserver(c);
-				}
-			}
-		} catch (FileNotFoundException e) {
-			error("File Not Found");
-		}
 	}
 
 	private static void error(String err) {
