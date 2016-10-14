@@ -198,7 +198,9 @@ public class UI {
 		try (Scanner scanner = new Scanner(file)) {
 			while (scanner.hasNextLine()) {
 				String[] data = split(scanner.nextLine());
-				shop.addCustomer(new Customer(data[2], data[0], data[1]));
+				Customer c = new Customer(data[2], data[0], data[1]);
+				shop.addCustomer(c);
+				if (data[3].equals("true")) shop.addObserver(c);
 			}
 		} catch (FileNotFoundException e) {
 			error("File Not Found");
