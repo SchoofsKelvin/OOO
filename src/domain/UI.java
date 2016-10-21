@@ -47,6 +47,7 @@ public class UI {
 		while (true) {
 			try {
 				String choiceString = JOptionPane.showInputDialog(menu);
+				if (choiceString == null) System.exit(0);
 				choice = Integer.parseInt(choiceString);
 				if (choice == 1) {
 					addProduct(shop);
