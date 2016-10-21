@@ -7,7 +7,7 @@ import domain.db.ShopFactory;
 
 public class App {
 
-	public void Start() throws Exception {
+	public static void main(String[] args) throws Exception {
 		String shopType = "file";
 		// Add stuff to change shopType if needed
 		Shop shop = new ShopFactory().createShop(shopType);
