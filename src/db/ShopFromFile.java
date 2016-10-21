@@ -10,21 +10,19 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import domain.*;
-import domain.product.CD;
-import domain.product.Game;
-import domain.product.Movie;
+import domain.Customer;
+import domain.Observer;
+import domain.Subject;
 import domain.product.Product;
-import domain.state.AvailableState;
-import domain.state.DamagedState;
+import domain.product.ProductFactory;
 import domain.state.RemovedState;
-import domain.state.RentedState;
 
 public class ShopFromFile implements Subject, Shop {
 
-	private ArrayList<Product>	products	= new ArrayList<>();
-	private ArrayList<Customer>	customers	= new ArrayList<>();
-	private ArrayList<Observer>	observers	= new ArrayList<>();
+	private ArrayList<Product>	products		= new ArrayList<>();
+	private ArrayList<Customer>	customers		= new ArrayList<>();
+	private ArrayList<Observer>	observers		= new ArrayList<>();
+	private ProductFactory		productFactory	= new ProductFactory();
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -104,15 +102,15 @@ public class ShopFromFile implements Subject, Shop {
 		PrintWriter writer = new PrintWriter("products.txt");
 		for (Product p : getProducts()) {
 			if ( !(p.getState() instanceof RemovedState)) {
-				writer.println(p.getType() + ";" + p.getId() + ";" + p.getTitle() + ";"
-					+ p.getState().getName());
+				writer.println(p.getType() + ";" + p.getId() + ";" + p.getTitle()
+					+ ";" + p.getState().getName());
 			}
 		}
 		writer.close();
 		writer = new PrintWriter("customers.txt");
 		for (Customer c : getCustomers()) {
-			writer.println(c.getFirstName() + ";" + c.getLastName() + ";" + c.getEmail()
-				+ ";" + (hasObserver(c) ? "true" : "false"));
+			writer.println(c.getFirstName() + ";" + c.getLastName() + ";"
+				+ c.getEmail() + ";" + (hasObserver(c) ? "true" : "false"));
 		}
 		writer.close();
 	}
@@ -137,36 +135,11 @@ public class ShopFromFile implements Subject, Shop {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				String[] data = split(line);
-				if (data.length < 4)
-					throw new IllegalArgumentException("Unknown saved product: " + line);
-				Product prod;
-				switch (data[0].toLowerCase()) {
-					case "cd":
-						prod = new CD(data[1], data[2]);
-						break;
-					case "game":
-						prod = new Game(data[1], data[2]);
-						break;
-					case "movie":
-						prod = new Movie(data[1], data[2]);
-						break;
-					default:
-						throw new IllegalArgumentException(
-							"Unknown saved product: " + line);
-				}
-				switch (data[3].toLowerCase()) {
-					case "available":
-						prod.setState(new AvailableState());
-						break;
-					case "damaged":
-						prod.setState(new DamagedState());
-						break;
-					case "rented":
-						prod.setState(new RentedState());
-						break;
-					default:
-						throw new IllegalArgumentException("Unknown state: " + data[3]);
-				}
+				if (data.length < 4) throw new IllegalArgumentException(
+					"Unknown saved product: " + line);
+				Product prod =
+					productFactory.createProduct(data[0], data[1], data[2]);
+				productFactory.loadState(prod, data[3]);
 				addProduct(prod);
 			}
 		} catch (FileNotFoundException e) {
