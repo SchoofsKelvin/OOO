@@ -1,6 +1,6 @@
 package domain.state;
 
-import domain.Product;
+import domain.product.Product;
 
 public class RemovedState extends ProductState {
 

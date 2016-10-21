@@ -11,6 +11,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import domain.*;
+import domain.product.CD;
+import domain.product.Game;
+import domain.product.Movie;
+import domain.product.Product;
 import domain.state.AvailableState;
 import domain.state.DamagedState;
 import domain.state.RemovedState;

@@ -6,6 +6,10 @@ import javax.swing.JOptionPane;
 
 import db.Shop;
 import db.ShopFromFile;
+import domain.product.CD;
+import domain.product.Game;
+import domain.product.Movie;
+import domain.product.Product;
 import exception.DomainException;
 
 public class UI {

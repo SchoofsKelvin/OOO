@@ -1,4 +1,4 @@
-package domain;
+package domain.product;
 
 public class Game extends Product {
 

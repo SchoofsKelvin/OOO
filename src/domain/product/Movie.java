@@ -1,4 +1,4 @@
-package domain;
+package domain.product;
 
 public class Movie extends Product {
 

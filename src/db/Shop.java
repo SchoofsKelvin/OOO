@@ -3,7 +3,7 @@ package db;
 import java.util.List;
 
 import domain.Customer;
-import domain.Product;
+import domain.product.Product;
 
 public interface Shop {
 
