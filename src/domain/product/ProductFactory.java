@@ -1,11 +1,11 @@
 package domain.product;
 
-import domain.state.AvailableState;
-import domain.state.DamagedState;
-import domain.state.RentedState;
+import domain.state.ProductStateFactory;
 import exception.DomainException;
 
 public class ProductFactory {
+
+	private ProductStateFactory stateFactory = new ProductStateFactory();
 
 	public Product createProduct(String type, String id, String title) {
 		ProductType typ;
@@ -28,19 +28,6 @@ public class ProductFactory {
 	}
 
 	public void loadState(Product prod, String state) {
-		if (state == null) throw new DomainException("State is null");
-		switch (state.toLowerCase()) {
-			case "available":
-				prod.setState(new AvailableState());
-				break;
-			case "damaged":
-				prod.setState(new DamagedState());
-				break;
-			case "rented":
-				prod.setState(new RentedState());
-				break;
-			default:
-				throw new DomainException("Unknown state: " + state);
-		}
+		prod.setState(stateFactory.createState(state));
 	}
 }
