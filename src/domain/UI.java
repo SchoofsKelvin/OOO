@@ -65,7 +65,7 @@ public class UI {
 		}
 	}
 
-	private static void loadData(Shop shop) {
+	public static void loadData(Shop shop) {
 		try {
 			shop.loadData();
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class UI {
 		}
 	}
 
-	private static void saveData(Shop shop) {
+	public static void saveData(Shop shop) {
 		try {
 			shop.saveData();
 		} catch (Exception e) {
@@ -102,7 +102,8 @@ public class UI {
 
 	public static void showProduct(Shop shop) throws DomainException {
 		String id = JOptionPane.showInputDialog("Enter the id:");
-		if (id == null || id.trim().isEmpty()) throw new DomainException("Invalid ID");
+		if (id == null || id.trim().isEmpty())
+			throw new DomainException("Invalid ID");
 		Product prod = shop.getProduct(id);
 		if (prod == null)
 			throw new DomainException("Product with the given ID not found");
@@ -111,7 +112,8 @@ public class UI {
 
 	public static void showPrice(Shop shop) throws DomainException {
 		String id = JOptionPane.showInputDialog("Enter the id:");
-		if (id == null || id.trim().isEmpty()) throw new DomainException("Invalid ID");
+		if (id == null || id.trim().isEmpty())
+			throw new DomainException("Invalid ID");
 		Product prod = shop.getProduct(id);
 		if (prod == null)
 			throw new DomainException("Product with the given ID not found");
@@ -143,6 +145,16 @@ public class UI {
 
 	public static void unsubscribe(Shop shop) {
 		// TODO Auto-generated method stub
+	}
+
+	public static void addObserver(Shop shop) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public static void deleteAllData(Shop shop) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
