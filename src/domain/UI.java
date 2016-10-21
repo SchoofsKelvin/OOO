@@ -15,7 +15,7 @@ import exception.DomainException;
 public class UI {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length == 0) {
+		if (args.length == 1) { // DISABLED (0==enabled)
 			Customer cus = new Customer("a@b.com", "Alpha", "Beta");
 			CD cd = new CD("cd", "Le CD");
 			Game game = new Game("game", "Le Game");
