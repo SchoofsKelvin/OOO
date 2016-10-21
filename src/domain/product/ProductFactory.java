@@ -12,22 +12,17 @@ public class ProductFactory {
 		try {
 			typ = ProductType.valueOf(type.toUpperCase());
 		} catch (Exception e) {
-			throw new DomainException(
-				"Could't find the product type '" + type + "'");
+			throw new DomainException("Could't find the product type '" + type + "'");
 		}
 		try {
 			return typ.getClassObject().getConstructor(String.class, String.class)
 				.newInstance(id, title);
 		} catch (ClassNotFoundException e) {
-			throw new DomainException(
-				"Missing the Product class for type '" + type + "'");
+			throw new DomainException("Missing the Product class for type '" + type + "'");
 		} catch (Exception e) {
 			throw new DomainException(
 				"Couldn't instantiate a class of the type '" + type + "'");
 		}
 	}
 
-	public void loadState(Product prod, String state) {
-		prod.setState(stateFactory.createState(state));
-	}
 }

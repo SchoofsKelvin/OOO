@@ -15,6 +15,7 @@ import domain.Observer;
 import domain.Subject;
 import domain.product.Product;
 import domain.product.ProductFactory;
+import domain.state.ProductStateFactory;
 import domain.state.RemovedState;
 
 public class ShopFromFile implements Subject, Shop {
@@ -23,6 +24,7 @@ public class ShopFromFile implements Subject, Shop {
 	private ArrayList<Customer>	customers		= new ArrayList<>();
 	private ArrayList<Observer>	observers		= new ArrayList<>();
 	private ProductFactory		productFactory	= new ProductFactory();
+	private ProductStateFactory	stateFactory	= new ProductStateFactory();
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -102,15 +104,15 @@ public class ShopFromFile implements Subject, Shop {
 		PrintWriter writer = new PrintWriter("products.txt");
 		for (Product p : getProducts()) {
 			if ( !(p.getState() instanceof RemovedState)) {
-				writer.println(p.getType() + ";" + p.getId() + ";" + p.getTitle()
-					+ ";" + p.getState().getName());
+				writer.println(p.getType() + ";" + p.getId() + ";" + p.getTitle() + ";"
+					+ p.getState().getName());
 			}
 		}
 		writer.close();
 		writer = new PrintWriter("customers.txt");
 		for (Customer c : getCustomers()) {
-			writer.println(c.getFirstName() + ";" + c.getLastName() + ";"
-				+ c.getEmail() + ";" + (hasObserver(c) ? "true" : "false"));
+			writer.println(c.getFirstName() + ";" + c.getLastName() + ";" + c.getEmail() + ";"
+				+ (hasObserver(c) ? "true" : "false"));
 		}
 		writer.close();
 	}
@@ -135,11 +137,10 @@ public class ShopFromFile implements Subject, Shop {
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				String[] data = split(line);
-				if (data.length < 4) throw new IllegalArgumentException(
-					"Unknown saved product: " + line);
-				Product prod =
-					productFactory.createProduct(data[0], data[1], data[2]);
-				productFactory.loadState(prod, data[3]);
+				if (data.length < 4)
+					throw new IllegalArgumentException("Unknown saved product: " + line);
+				Product prod = productFactory.createProduct(data[0], data[1], data[2]);
+				prod.setState(stateFactory.createState(data[3]));
 				addProduct(prod);
 			}
 		} catch (FileNotFoundException e) {
