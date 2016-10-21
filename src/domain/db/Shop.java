@@ -1,4 +1,4 @@
-package db;
+package domain.db;
 
 import java.util.List;
 

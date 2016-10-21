@@ -2,8 +2,8 @@ package domain;
 
 import javax.swing.JFrame;
 
-import db.Shop;
-import db.ShopFromFile;
+import domain.db.Shop;
+import domain.db.ShopFromFile;
 
 public class App {
 

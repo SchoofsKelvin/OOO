@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import db.Shop;
-import db.ShopFromFile;
+import domain.db.Shop;
+import domain.db.ShopFactory;
+import domain.db.ShopFromFile;
 import domain.product.CD;
 import domain.product.Game;
 import domain.product.Movie;
@@ -36,7 +37,9 @@ public class UI {
 			}
 			return;
 		}
-		Shop shop = new ShopFromFile();
+		String shopType = "file";
+		// Add stuff to change shopType if needed
+		Shop shop = new ShopFactory().createShop(shopType);
 		loadData(shop);
 		String menu = "1. Add product\n2. Show product\n3. Show rental price\n"
 			+ "4. Show all product\n5. Save data \n\n0. Quit";

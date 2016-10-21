@@ -1,4 +1,4 @@
-package db;
+package domain.db;
 
 import java.io.File;
 import java.io.FileNotFoundException;

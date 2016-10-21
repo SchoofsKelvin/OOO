@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import db.Shop;
+import domain.db.Shop;
 
 public class View extends JFrame {
 
