@@ -11,7 +11,9 @@ import domain.product.CD;
 import domain.product.Game;
 import domain.product.Movie;
 import domain.product.Product;
+import domain.product.ProductFactory;
 import exception.DomainException;
+import domain.product.ProductType;
 
 public class UI {
 
@@ -91,18 +93,22 @@ public class UI {
 
 	public static void addProduct(Shop shop) throws DomainException {
 		Product product = null;
+		ProductFactory productFactory = new ProductFactory();
+		//String type = JOptionPane.showInputDialog("Enter the type (movie/game/cd)");
+		String[] productType = new String [3];
+		productType[0] = ProductType.CD.getClassName();
+		productType[1] = ProductType.MOVIE.getClassName();
+		productType[2] = ProductType.GAME.getClassName();
+		String type = (String) JOptionPane.showInputDialog(null, "Choose now...",
+		        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
+		        productType, // Array of choices
+		        productType[1]); // Initial choice
 		String id = JOptionPane.showInputDialog("Enter the id:");
 		String title = JOptionPane.showInputDialog("Enter the title:");
-		String type = JOptionPane
-			.showInputDialog("Enter the type (M for movie/G for game/C for CD):");
-		if (type.equalsIgnoreCase("C") || type.equalsIgnoreCase("CD")) {
-			product = new CD(id, title);
-		} else if (type.equalsIgnoreCase("G") || type.equalsIgnoreCase("Game")) {
-			product = new Game(id, title);
-		} else if (type.equalsIgnoreCase("M") || type.equalsIgnoreCase("Movie")) {
-			product = new Movie(id, title);
-		} else {
-			error("type is niet juist gegeven");
+		try {
+			product = productFactory.createProduct(type,id, title);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 		}
 		if (shop.hasProduct(product)) throw new DomainException("Already exist ");
 		shop.addProduct(product);

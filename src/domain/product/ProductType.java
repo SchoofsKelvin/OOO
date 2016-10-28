@@ -8,7 +8,9 @@ public enum ProductType {
 	ProductType(String className) {
 		this.className = className;
 	}
-
+	public String getClassName(){
+		return className;
+	}
 	@Override
 	public String toString() {
 		return name().substring(0, 1).toUpperCase()
