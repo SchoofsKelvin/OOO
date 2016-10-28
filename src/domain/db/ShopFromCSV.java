@@ -5,98 +5,20 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import domain.Customer;
-import domain.Observer;
-import domain.Subject;
 import domain.product.Product;
 import domain.product.ProductFactory;
 import domain.state.ProductStateFactory;
 import domain.state.RemovedState;
 
-public class ShopFromCSV implements Subject, Shop {
+public class ShopFromCSV extends ShopInMemory {
 
-	private ArrayList<Product>	products		= new ArrayList<>();
-	private ArrayList<Customer>	customers		= new ArrayList<>();
-	private ArrayList<Observer>	observers		= new ArrayList<>();
 	private ProductFactory		productFactory	= new ProductFactory();
 	private ProductStateFactory	stateFactory	= new ProductStateFactory();
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Product> getProducts() {
-		return (List<Product>) products.clone();
-	}
-
-	@Override
-	public void addProduct(Product p) {
-		products.add(p);
-		notifyObservers("New product: " + p.getType() + " " + p.getTitle());
-	}
-
-	@Override
-	public void removeProduct(Product p) {
-		products.remove(p);
-	}
-
-	@Override
-	public Product getProduct(String id) {
-		for (Product p : products) {
-			if (p.getId().equalsIgnoreCase(id)) return p;
-		}
-		return null;
-	}
-
-	@Override
-	public boolean hasProduct(Product p) {
-		return products.contains(p);
-	}
-
-	@Override
-	public void addCustomer(Customer c) {
-		customers.add(c);
-	}
-
-	@Override
-	public void removeCustomer(Customer c) {
-		customers.remove(c);
-	}
-
-	@Override
-	public boolean hasCustomer(Customer c) {
-		return customers.contains(c);
-	}
-
-	@Override
-	public List<Customer> getCustomers() {
-		return new ArrayList<>(customers);
-	}
-
-	@Override
-	public void notifyObservers(String message) {
-		for (Observer o : observers) {
-			o.update(message);
-		}
-	}
-
-	@Override
-	public void addObserver(Observer observer) {
-		observers.add(observer);
-	}
-
-	@Override
-	public void removeObserver(Observer observer) {
-		observers.add(observer);
-	}
-
-	@Override
-	public boolean hasObserver(Observer o) {
-		return observers.contains(o);
-	}
 
 	@Override
 	public synchronized void saveData()
