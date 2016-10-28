@@ -58,6 +58,14 @@ public class ShopFromXLS extends ShopInMemory {
 		products.clear();
 		customers.clear();
 		observers.clear();
+		if ( !new File("products.xls").exists()) return;
+		ArrayList<ArrayList<String>> data = excelHandler.read(new File("products.xls"));
+		for (ArrayList<String> row : data) {
+			if (row.size() < 4) throw new IllegalArgumentException("Unknown saved product");
+			Product prod = productFactory.createProduct(row.get(0), row.get(1), row.get(2));
+			prod.setState(stateFactory.createState(row.get(3)));
+			addProduct(prod);
+		}
 		File file = new File("products.txt");
 		if ( !file.exists()) return;
 		try (Scanner scanner = new Scanner(file)) {
