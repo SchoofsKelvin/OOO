@@ -1,11 +1,8 @@
 package domain.product;
 
-import domain.state.ProductStateFactory;
 import exception.DomainException;
 
 public class ProductFactory {
-
-	private ProductStateFactory stateFactory = new ProductStateFactory();
 
 	public Product createProduct(String type, String id, String title) {
 		ProductType typ;
