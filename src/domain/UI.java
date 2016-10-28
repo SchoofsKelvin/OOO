@@ -17,64 +17,6 @@ import domain.product.ProductType;
 
 public class UI {
 
-	public static void main(String[] args) throws Exception {
-		if (args.length == 1) { // DISABLED (0==enabled)
-			Customer cus = new Customer("a@b.com", "Alpha", "Beta");
-			CD cd = new CD("cd", "Le CD");
-			Game game = new Game("game", "Le Game");
-			Movie movie = new Movie("movie", "Le Movie");
-			Shop shop = new ShopFromFile();
-			shop.addCustomer(cus);
-			shop.addProduct(cd);
-			shop.addProduct(game);
-			shop.addProduct(movie);
-			shop.saveData();
-			shop = new ShopFromFile();
-			shop.loadData();
-			for (Customer customer : shop.getCustomers()) {
-				System.out.println(customer);
-			}
-			for (Product product : shop.getProducts()) {
-				System.out.println(product);
-			}
-			return;
-		}
-		String shopType = "file";
-		// Add stuff to change shopType if needed
-		Shop shop = new ShopFactory().createShop(shopType);
-		loadData(shop);
-		String menu = "1. Add product\n2. Show product\n3. Show rental price\n"
-			+ "4. Show all product\n5. Save data \n\n0. Quit";
-		int choice = -1;
-		while (true) {
-			try {
-				String choiceString = JOptionPane.showInputDialog(menu);
-				if (choiceString == null) System.exit(0);
-				choice = Integer.parseInt(choiceString);
-				if (choice == 1) {
-					addProduct(shop);
-				} else if (choice == 2) {
-					showProduct(shop);
-				} else if (choice == 3) {
-					showPrice(shop);
-				} else if (choice == 4) {
-					showAllProduct(shop);
-				} else if (choice == 5) {
-					saveData(shop);
-				} else if (choice == 0) {
-					System.exit(0);
-				} else
-					throw new DomainException("Invalid choice");
-			} catch (NumberFormatException e) {
-				error("Invalid number");
-			} catch (DomainException e) {
-				error(e.getMessage());
-			} catch (Exception e) {
-				error("Unknown exception: " + e.getMessage());
-			}
-		}
-	}
-
 	public static void loadData(Shop shop) {
 		try {
 			shop.loadData();
