@@ -18,7 +18,7 @@ import domain.product.ProductFactory;
 import domain.state.ProductStateFactory;
 import domain.state.RemovedState;
 
-public class ShopFromFile implements Subject, Shop {
+public class ShopFromCSV implements Subject, Shop {
 
 	private ArrayList<Product>	products		= new ArrayList<>();
 	private ArrayList<Customer>	customers		= new ArrayList<>();
