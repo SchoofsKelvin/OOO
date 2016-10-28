@@ -1,7 +1,5 @@
 package domain.db;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,8 +87,7 @@ public class ShopInMemory implements Subject, Shop {
 	}
 
 	@Override
-	public synchronized void saveData()
-		throws FileNotFoundException, UnsupportedEncodingException {}
+	public synchronized void saveData() throws Exception {}
 
 	@Override
 	public synchronized void loadData() throws Exception {}
