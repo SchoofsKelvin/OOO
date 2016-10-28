@@ -1,8 +1,6 @@
 package domain;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,80 +41,19 @@ public class View extends JFrame {
 		panel.add(saveAllData);
 		panel.add(deleteAllData);
 
-		addProduct.addActionListener(new ActionListener() {
+		addProduct.addActionListener(e -> UI.addProduct(shop));
+		showProduct.addActionListener(e -> UI.showProduct(shop));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.addProduct(shop);
-			}
-		});
-		showProduct.addActionListener(new ActionListener() {
+		showRentalPrice.addActionListener(e -> UI.showPrice(shop));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.showProduct(shop);
-			}
-		});
+		addCustomer.addActionListener(e -> UI.addCustomer(shop));
+		showCustomer.addActionListener(e -> UI.addCustomer(shop));
 
-		showRentalPrice.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.showPrice(shop);
-			}
-		});
-
-		addCustomer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.addCustomer(shop);
-			}
-		});
-		showCustomer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.addCustomer(shop);
-
-			}
-		});
-
-		subcriberToNewsLetter.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.addObserver(shop);
-			}
-		});
-		unsubscribe.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.addObserver(shop);
-			}
-		});
-		saveAllData.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.saveData(shop);
-			}
-		});
-		deleteAllData.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.deleteAllData(shop);
-			}
-		});
-		showObserver.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.addObserver(shop);
-			}
-		});
+		subcriberToNewsLetter.addActionListener(e -> UI.addObserver(shop));
+		unsubscribe.addActionListener(e -> UI.addObserver(shop));
+		saveAllData.addActionListener(e -> UI.saveData(shop));
+		deleteAllData.addActionListener(e -> UI.deleteAllData(shop));
+		showObserver.addActionListener(e -> UI.addObserver(shop));
 
 		/*
 		 * Container container = getContentPane(); container.add(addProduct);
