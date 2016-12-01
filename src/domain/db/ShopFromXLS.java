@@ -33,6 +33,7 @@ public class ShopFromXLS extends ShopInMemory {
 			}
 		}
 		excelHandler.write(new File("products.xls"), data);
+		data.clear();
 		for (Customer c : getCustomers()) {
 			ArrayList<String> row = new ArrayList<>(4);
 			row.add(c.getFirstName());
